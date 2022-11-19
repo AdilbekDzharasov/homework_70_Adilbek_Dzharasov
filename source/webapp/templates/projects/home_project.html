@@ -1,0 +1,54 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+To-do list
+{% endblock %}
+
+{% block task %}
+
+{% for project in projects %}
+<div class="album py-3 bg-light">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <h3 class="card-text">{{ project.title }}</h3>
+                  <p class="card-text">Description: {{ project.description }}</p>
+                  <p class="card-text">Beginning date: {{ project.beginning_date }}</p>
+                  <p class="card-text">Expiration date: {{ project.expiration_date }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class>
+                      <a href="{% url 'project_detail' project.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                      <a href="{% url 'project_update' project.pk %}" class="btn btn-sm btn-outline-secondary">Update</a>
+                      <a href="{% url 'project_all_delete' project.pk %}" class="btn btn-sm btn-outline-secondary">Delete</a>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+{% empty %}
+<div class="album py-3 bg-light">
+        <div class="container">
+
+          <div class="row">
+            <div class="col">
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <h3 class="card-text">Task not found</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+

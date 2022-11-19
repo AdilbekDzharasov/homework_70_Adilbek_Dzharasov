@@ -1,0 +1,59 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+To-do list
+{% endblock %}
+
+{% block task %}
+{% include 'partial/simple_search.html' %}
+{% for task in tasks %}
+
+<div class="album py-3 bg-light">
+        <div class="container">
+
+          <div class="row">
+            <div class="col">
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <h3 class="card-text">{{ task.summary }}</h3>
+                  <p class="card-text">Project: {{ task.project.title }}</p>
+                  <p class="card-text">Status: {{ task.status }}</p>
+                  <p class="card-text">Type: {% for t in task.type.all %}{{ t.type_title }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class>
+                      <a href="{% url 'task_detail' task.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                      <a href="{% url 'task_update' task.pk %}" class="btn btn-sm btn-outline-secondary">Update</a>
+                      <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-secondary">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+</div>
+{% empty %}
+<div class="album py-3 bg-light">
+        <div class="container">
+
+          <div class="row">
+            <div class="col">
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <h3 class="card-text">Task not found</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+</div>
+{% endfor %}
+
+{% if is_paginated %}
+  {% include 'partial/pagination.html' %}
+{% endif %}
+
+{% endblock %}
+

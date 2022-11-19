@@ -1,0 +1,19 @@
+{% extends 'tasks/base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block task %}
+    <div class="container">
+        <form action="" method="POST">
+            <div class="form">
+                {% csrf_token %}
+
+                {% bootstrap_form form %}
+
+                {% bootstrap_button button_type="submit" content='To come in' %}
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+

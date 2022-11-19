@@ -1,0 +1,43 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+To-do list
+{% endblock %}
+
+{% block task %}
+
+<div class="album py-3 bg-light">
+        <div class="container">
+
+          <div class="row">
+            <div class="col">
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <h3 class="card-text">{{ task.summary }}</h3>
+                  <h5 class="card-text mb-4">Detailed description:  {{ task.description }}</h5>
+                  <p class="card-text">Project: {{ task.project.title }}</p>
+                  <p class="card-text">Project description: {{ task.project.description }}</p>
+                  <p class="card-text">Status: {{ task.status }}</p>
+                  <p class="card-text">
+                    {% if task.type.all|length > 0 %}
+                        Type:
+                    {% else %}
+                    {% endif %}
+                    {% for type in task.type.all %}
+                        {{ type.type_title }}{% if not forloop.last %},
+                        {% endif %}
+                    {% endfor %}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class>
+                      <a href="{% url 'task_home' %}" class="btn btn-sm btn-outline-secondary">← Back to "To-do list</a>
+                      <a href="{% url 'task_update' task.pk %}" class="btn btn-sm btn-outline-secondary">Update</a>
+                      <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-secondary">Delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+</div>
+
+{% endblock %}

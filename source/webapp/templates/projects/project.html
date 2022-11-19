@@ -1,0 +1,122 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+To-do list
+{% endblock %}
+
+{% block task %}
+
+<div class="album py-3 bg-light">
+    <div class="container">
+
+          <div class="row">
+            <div class="col">
+              <div class="card mb-4 box-shadow bg-info text-white">
+                <div class="card-body">
+                  <h3 class="card-text">{{ project.title }}</h3>
+                  <p class="card-text">Description: {{ project.description }}</p>
+                  <p class="card-text">Beginning date: {{ project.beginning_date }}</p>
+                  <p class="card-text">Expiration date: {{ project.expiration_date }}</p>
+                  {% if user.is_authenticated %}
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class>
+                      <a href="{% url 'project_task_create' project.pk %}" class="btn btn-sm btn-outline-black">Add a task</a>
+                      <a href="{% url 'project_add_user' project.pk %}" class="btn btn-sm btn-outline-black">Delete or add user</a>
+                      <a href="{% url 'project_update' project.pk %}" class="btn btn-sm btn-outline-black">Update</a>
+                      <a href="{% url 'project_all_delete' project.pk %}" class="btn btn-sm btn-outline-black">Delete</a>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+    </div>
+</div>
+
+<div class="container">
+  <h4 class="mb-4">Users list</h4>
+    <div class="table">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in project.user.all %}
+            <tr>
+              <td class="text">{{ i.username }}</td>
+              <td class="text">{{ i.first_name }}</td>
+              <td class="text">{{ i.email }}</td>
+            </tr>
+          {% empty %}
+          <div class="album py-3 bg-light">
+                  <div class="container">
+
+                    <div class="row">
+                      <div class="col">
+                        <div class="card mb-4 box-shadow">
+                          <div class="card-body">
+                            <h3 class="card-text">The project has no users!</h3>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+          </div>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+
+{% for task in tasks %}
+
+<div class="album py-3 bg-light">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <h3 class="card-text">{{ task.summary }}</h3>
+                  <p class="card-text">Project: {{ task.project.title }}</p>
+                  <p class="card-text">Status: {{ task.status }}</p>
+                  <p class="card-text">Type: {% for t in task.type.all %}{{ t.type_title }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class>
+                      <a href="{% url 'task_detail' task.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                      <a href="{% url 'task_update' task.pk %}" class="btn btn-sm btn-outline-secondary">Update</a>
+                      <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-secondary">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+</div>
+
+{% empty %}
+<div class="album py-3 bg-light">
+        <div class="container">
+
+          <div class="row">
+            <div class="col">
+              <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                  <h3 class="card-text">The project has no tasks!</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+</div>
+{% endfor %}
+{% endblock %}
