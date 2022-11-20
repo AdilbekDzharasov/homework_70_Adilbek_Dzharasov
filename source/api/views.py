@@ -24,3 +24,10 @@ class TaskDetailView(APIView):
         serializer.save()
         return Response(serializer.data)
 
+    def delete(self, request, *args, pk, **kwargs):
+        task = get_object_or_404(Task, pk=pk)
+        task.delete()
+        return Response({
+            "message": f"Задача {pk} удалена."
+        }, status=204)
+
